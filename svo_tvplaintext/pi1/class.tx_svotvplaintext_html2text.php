@@ -248,16 +248,22 @@ class tx_svotvplaintext_html2text {
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
-
+		
+		$fixIgnoredSpecialChars = array(
+			'\n' => "\n",
+			'\t' => "\t"
+			);
+		$text = str_replace(array_keys($fixIgnoredSpecialChars), $fixIgnoredSpecialChars, $text);
+		
+		
         // Bring down number of empty lines to 2 max
-        $text = preg_replace("/\n\s+\n/", "\n", $text);
-        $text = preg_replace("/[\n]{3,}/", "\n\n", $text);
+        $text = preg_replace("/\n\s+\n\s+\n/", "\n\n", $text);
+        //$text = preg_replace("/[\n]{4,}/", "\n\n\n", $text);
 
         // Add link list
         if ( !empty($this->_link_list) ) {
             $text .= "\n\nLinks:\n------\n" . $this->_link_list;
         }
-
         // Wrap the text to a readable format
         // for PHP versions >= 4.0.2. Default width is 75
         $text = wordwrap($text, $this->width);

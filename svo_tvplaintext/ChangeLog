@@ -1,3 +1,8 @@
+09-04-15 Raphael Waelterlin <rw@cabag.ch>
+	* version 0.0.4
+	* fixed wordwrap problem
+	* added wordwrap option to typoscript
+
 09-04-14 Raphael Waelterlin <rw@cabag.ch>
 	* version 0.0.3
 	* renamed the html2txt class according to typo3 standards

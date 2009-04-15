@@ -2,6 +2,7 @@ includeLibs.tx_svotvplaintext_pi1 = EXT:svo_tvplaintext/pi1/class.tx_svotvplaint
 
 plugin.tx_svotvplaintext_pi1 {
 	baseURL = http://www.yoururl.com/
+	wordwrap = 75
 	
 	preg {
 		10 {
@@ -18,7 +19,7 @@ plugin.tx_svotvplaintext_pi1 {
 		}
 		40 {
 			from = /<h[123][^>]*>(.+?)<\/h[123]>/ie
-			to = strtoupper("\n\n\1\n-------------------------------------------------------------------------\n")
+			to = strtoupper("\1\n-------------------------------------------------------------------------\n")
 		}
 		50 {
 			from = /<h[456][^>]*>(.+?)<\/h[456]>/ie
@@ -42,15 +43,15 @@ plugin.tx_svotvplaintext_pi1 {
 		}
 		100 {
 			from = /(<ul[^>]*>|<\/ul>)/i
-			to = \n\n
+			to = \n
 		}
 		110 {
 			from = /(<ol[^>]*>|<\/ol>)/i
-			to = \n\n
+			to = \n
 		}
 		120 {
 			from = /<li[^>]*>/i
-			to =    * 
+			to = \n * 
 		}
 		130 {
 			from = /<a href="([^"]+)"[^>]*>(.+?)<\/a>/ie
@@ -62,15 +63,15 @@ plugin.tx_svotvplaintext_pi1 {
 		}
 		150 {
 			from = /(<table[^>]*>|<\/table>)/i
-			to = 
+			to = \1
 		}
 		160 {
 			from = /(<tr[^>]*>|<\/tr>)/i
-			to = 
+			to = \1
 		}
 		170 {
 			from = /<td[^>]*>(.+?)<\/td>/i
-			to = \1\n\n
+			to = \1
 		}
 		180 {
 			from = /<th[^>]*>(.+?)<\/th>/i

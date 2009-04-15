@@ -53,7 +53,9 @@ class tx_svotvplaintext_pi1 extends tslib_pibase {
 			$h2t->search[] = $preg['from'];
 			$h2t->replace[] = $preg['to'];
 		}
-
+		
+		$h2t->width = $this->conf['wordwrap'];
+		
 		// The HTML is likely full of relative links, so let's specify
 		// an absolute source.
 		$h2t->set_base_url($this->conf['baseURL']);      
@@ -62,12 +64,6 @@ class tx_svotvplaintext_pi1 extends tslib_pibase {
 		// the HTML to the plain text. Store it into the variable.
 		$text = $h2t->get_text();
 		
-		$fixTypoScript = array(
-			'\n' => "\n",
-			'\t' => "\t"
-			);
-		$text = str_replace(array_keys($fixTypoScript), $fixTypoScript, $text);
-    
 		return $text;
 	}
 	
