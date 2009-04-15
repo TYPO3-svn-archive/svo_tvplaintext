@@ -1,4 +1,8 @@
-(add new changes on top of this file)
+09-04-14 Raphael Waelterlin <rw@cabag.ch>
+	* version 0.0.3
+	* renamed the html2txt class according to typo3 standards
+	* moved the search/replace patterns to typoscript so it can be modified easily
+	* added icon and documentation (not yet completed)
 
 05-11-28 Sacha Vorbeck  <info@unlimited-vision.net>
 

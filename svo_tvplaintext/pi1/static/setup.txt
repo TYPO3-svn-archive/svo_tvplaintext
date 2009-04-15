@@ -1,0 +1,164 @@
+includeLibs.tx_svotvplaintext_pi1 = EXT:svo_tvplaintext/pi1/class.tx_svotvplaintext_pi1.php
+
+plugin.tx_svotvplaintext_pi1 {
+	baseURL = http://www.yoururl.com/
+	
+	preg {
+		10 {
+			from = /\r/ 
+			to = 
+		}
+		20 {
+			from = /[\n\t]*/
+			to = 
+		}
+		30 {
+			from = /<script[^>]*>.*?<\/script>/i
+			to = 
+		}
+		40 {
+			from = /<h[123][^>]*>(.+?)<\/h[123]>/ie
+			to = strtoupper("\n\n\1\n-------------------------------------------------------------------------\n")
+		}
+		50 {
+			from = /<h[456][^>]*>(.+?)<\/h[456]>/ie
+			to = ucwords("\n\n\1\n\n")
+		}
+		60 {
+			from = /<p[^>]*>/i
+			to = \n
+		}
+		70 {
+			from = /<br[^>]*>/i
+			to = \n
+		}
+		80 {
+			from = /<b[^>]*>(.+?)<\/b>/ie
+			to = strtoupper("\1")
+		}
+		90 {
+			from = /<i[^>]*>(.+?)<\/i>/i
+			to = _\1_
+		}
+		100 {
+			from = /(<ul[^>]*>|<\/ul>)/i
+			to = \n\n
+		}
+		110 {
+			from = /(<ol[^>]*>|<\/ol>)/i
+			to = \n\n
+		}
+		120 {
+			from = /<li[^>]*>/i
+			to =    * 
+		}
+		130 {
+			from = /<a href="([^"]+)"[^>]*>(.+?)<\/a>/ie
+			to = $this->_build_link_list($link_count++, "\1", "\2")
+		}
+		140 {
+			from = /<hr[^>]*>/i
+			to = \n-------------------------\n
+		}
+		150 {
+			from = /(<table[^>]*>|<\/table>)/i
+			to = 
+		}
+		160 {
+			from = /(<tr[^>]*>|<\/tr>)/i
+			to = 
+		}
+		170 {
+			from = /<td[^>]*>(.+?)<\/td>/i
+			to = \1\n\n
+		}
+		180 {
+			from = /<th[^>]*>(.+?)<\/th>/i
+			to = strtoupper(\"\t\t\1\n\")
+		}
+		190 {
+			from = /&nbsp;/i
+			to = 
+		}
+		200 {
+			from = /&quot;/i
+			to = "
+		}
+		210 {
+			from = /&gt;/i
+			to = >
+		}
+		220 {
+			from = /&lt;/i
+			to = <
+		}
+		230 {
+			from = /&amp;/i
+			to = &
+		}
+		240 {
+			from = /&copy;/i
+			to = (c)
+		}
+		250 {
+			from = /&trade;/i
+			to = (tm)
+		}
+		260 {
+			from = /&#8220;/
+			to = "
+		}
+		270 {
+			from = /&#8221;/
+			to = "
+		}
+		280 {
+			from = /&#8211;/
+			to = -
+		}
+		290 {
+			from = /&#8217;/
+			to = '
+		}
+		300 {
+			from = /&#38;/
+			to = <
+		}
+		310 {
+			from = /&#169;/
+			to = &
+		}
+		320 {
+			from = /&#8482;/
+			to = 
+		}
+		330 {
+			from = /&#151;/
+			to = "
+		}
+		340 {
+			from = /&#147;/
+			to = (c)
+		}
+		350 {
+			from = /&#148;/
+			to = (tm)
+		}
+		360 {
+			from = /&#149;/
+			to = --
+		}
+		370 {
+			from = /&reg;/i
+			to = *
+		}
+		380 {
+			from = /&bull;/i
+			to = (R)
+		}
+		390 {
+			from = /&[&;]+;/i
+			to = 
+		}
+	}
+}

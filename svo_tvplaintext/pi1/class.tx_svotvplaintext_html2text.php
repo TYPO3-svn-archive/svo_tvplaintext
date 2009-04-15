@@ -30,49 +30,7 @@
  *                                                                       *
  *************************************************************************/
 
-
-/**
- *  Takes HTML and converts it to formatted, plain text.
- *
- *  Thanks to Alexander Krug (http://www.krugar.de/) to pointing out and
- *  correcting an error in the regexp search array. Fixed 7/30/03.
- *
- *  Updated set_html() function's file reading mechanism, 9/25/03.
- *
- *  Thanks to Joss Sanglier (http://www.dancingbear.co.uk/) for adding
- *  several more HTML entity codes to the $search and $replace arrays.
- *  Updated 11/7/03.
- *
- *  Thanks to Darius Kasperavicius (http://www.dar.dar.lt/) for
- *  suggesting the addition of $allowed_tags and its supporting function
- *  (which I slightly modified). Updated 3/12/04.
- *
- *  Thanks to Justin Dearing for pointing out that a replacement for the
- *  <TH> tag was missing, and suggesting an appropriate fix.
- *  Updated 8/25/04.
- *
- *  Thanks to Mathieu Collas (http://www.myefarm.com/) for finding a
- *  display/formatting bug in the _build_link_list() function: email
- *  readers would show the left bracket and number ("[1") as part of the
- *  rendered email address.
- *  Updated 12/16/04.
- *
- *  Thanks to Wojciech Bajon (http://histeria.pl/) for submitting code
- *  to handle relative links, which I hadn't considered. I modified his
- *  code a bit to handle normal HTTP links and MAILTO links. Also for
- *  suggesting three additional HTML entity codes to search for.
- *  Updated 03/02/05.
- *
- *  Thanks to Jacob Chandler for pointing out another link condition
- *  for the _build_link_list() function: "https".
- *  Updated 04/06/05.
- *
- *  @author Jon Abernathy <jon@chuggnutt.com>
- *  @version 0.6.1
- *  @since PHP 4.0.2
- */
-class html2text
-{
+class tx_svotvplaintext_html2text {
 
     /**
      *  Contains the HTML content to convert.
@@ -106,48 +64,7 @@ class html2text
      *  @access public
      *  @see $replace
      */
-    var $search = array(
-        "/\r/",                                  // Non-legal carriage return
-        "/[\n\t]+/",                             // Newlines and tabs
-        '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
-        //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
-        '/<h[123][^>]*>(.+?)<\/h[123]>/ie',      // H1 - H3
-        '/<h[456][^>]*>(.+?)<\/h[456]>/ie',      // H4 - H6
-        '/<p[^>]*>/i',                           // <P>
-        '/<br[^>]*>/i',                          // <br>
-        '/<b[^>]*>(.+?)<\/b>/ie',                // <b>
-        '/<i[^>]*>(.+?)<\/i>/i',                 // <i>
-        '/(<ul[^>]*>|<\/ul>)/i',                 // <ul> and </ul>
-        '/(<ol[^>]*>|<\/ol>)/i',                 // <ol> and </ol>
-        '/<li[^>]*>/i',                          // <li>
-        '/<a href="([^"]+)"[^>]*>(.+?)<\/a>/ie', // <a href="">
-        '/<hr[^>]*>/i',                          // <hr>
-        '/(<table[^>]*>|<\/table>)/i',           // <table> and </table>
-        '/(<tr[^>]*>|<\/tr>)/i',                 // <tr> and </tr>
-        '/<td[^>]*>(.+?)<\/td>/i',               // <td> and </td>
-        '/<th[^>]*>(.+?)<\/th>/i',               // <th> and </th>
-        '/&nbsp;/i',
-        '/&quot;/i',
-        '/&gt;/i',
-        '/&lt;/i',
-        '/&amp;/i',
-        '/&copy;/i',
-        '/&trade;/i',
-        '/&#8220;/',
-        '/&#8221;/',
-        '/&#8211;/',
-        '/&#8217;/',
-        '/&#38;/',
-        '/&#169;/',
-        '/&#8482;/',
-        '/&#151;/',
-        '/&#147;/',
-        '/&#148;/',
-        '/&#149;/',
-        '/&reg;/i',
-        '/&bull;/i',
-        '/&[&;]+;/i'
-    );
+    var $search = array();
 
     /**
      *  List of pattern replacements corresponding to patterns searched.
@@ -156,49 +73,7 @@ class html2text
      *  @access public
      *  @see $search
      */
-    var $replace = array(
-        '',                                     // Non-legal carriage return
-        ' ',                                    // Newlines and tabs
-        '',                                     // <script>s -- which strip_tags supposedly has problems with
-        //'',                                     // Comments -- which strip_tags might have problem a with
-        "strtoupper(\"\n\n\\1\n-------------------------------------------------------------------------\n\")",          // H1 - H3
-        "ucwords(\"\n\n\\1\n\n\")",             // H4 - H6
-        "\n\n",                               // <P>
-        "\n",                                   // <br>
-        'strtoupper("\\1")',                    // <b>
-        '_\\1_',                                // <i>
-        "\n\n",                                 // <ul> and </ul>
-        "\n\n",                                 // <ol> and </ol>
-        "\n\t*",                                  // <li>
-        '$this->_build_link_list($link_count++, "\\1", "\\2")',
-                                                // <a href="">
-        "\n-------------------------\n",        // <hr>
-        "\n\n",                                 // <table> and </table>
-        "\n",                                   // <tr> and </tr>
-        "\\1\n\n",                            // <td> and </td>
-        "strtoupper(\"\t\t\\1\n\")",            // <th> and </th>
-        ' ',
-        '"',
-        '>',
-        '<',
-        '&',
-        '(c)',
-        '(tm)',
-        '"',
-        '"',
-        '-',
-        "'",
-        '&',
-        '(c)',
-        '(tm)',
-        '--',
-        '"',
-        '"',
-        '*',
-        '(R)',
-        '*',
-        ''
-    );
+    var $replace = array();
 
     /**
      *  Contains a list of HTML tags to allow in the resulting text.
@@ -247,7 +122,7 @@ class html2text
      *  @access public
      *  @return void
      */
-    function html2text( $source = '', $from_file = false )
+    function __construct( $source = '', $from_file = false )
     {
         if ( !empty($source) ) {
             $this->set_html($source, $from_file);

@@ -11,8 +11,8 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Plaintext Library for TemplaVoila!',
-	'description' => 'Creates Plaintext-View of TV webpages. Uses html2text class from http://www.chuggnutt.com/html2text.php',
+	'title' => 'Convert HTML 2 Plaintext',
+	'description' => 'Converts any HTML to plain text. Very useful for TemplaVoila FCE or Extensions in Newsletters.',
 	'category' => 'plugin',
 	'shy' => 0,
 	'dependencies' => '',
@@ -20,18 +20,18 @@ $EM_CONF[$_EXTKEY] = array(
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => '',
-	'state' => 'test',
+	'state' => 'stable',
 	'uploadfolder' => 0,
 	'createDirs' => '',
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'author' => 'Sacha Vorbeck',
-	'author_email' => 'info@unlimited-vision.net',
+	'author' => 'Sacha Vorbeck, Raphael Waelterlin',
+	'author_email' => 'info@unlimited-vision.net, rw@cabag.ch',
 	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'version' => '0.0.2',
+	'version' => '0.0.3',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '3.5.0-0.0.0',

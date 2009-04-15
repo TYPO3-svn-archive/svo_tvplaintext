@@ -30,6 +30,8 @@
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
 
+require_once(t3lib_extMgm::extPath('svo_tvplaintext').'pi1/class.tx_svotvplaintext_html2text.php');
+
 class tx_svotvplaintext_pi1 extends tslib_pibase {
 	var $prefixId = 'tx_svotvplaintext_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_svotvplaintext_pi1.php';	// Path to this script relative to the extension dir.
@@ -40,45 +42,33 @@ class tx_svotvplaintext_pi1 extends tslib_pibase {
 	 * [Put your description here]
 	 */
 	function user_cleanup($content,$conf)	{
-
-		// Include the HTML-cleaner class definition file.
-		require_once('class.html2text.inc');
-
+		$this->conf = $conf;
+		
 		// Instantiate a new instance of the class. Passing the string
 		// variable automatically loads the HTML for you.
-		$h2t =& new html2text($content);
+		$h2t = new tx_svotvplaintext_html2text($content);
+		
+		ksort($this->conf['preg.']);
+		foreach($this->conf['preg.'] as $preg) {
+			$h2t->search[] = $preg['from'];
+			$h2t->replace[] = $preg['to'];
+		}
 
 		// The HTML is likely full of relative links, so let's specify
 		// an absolute source.
-		$h2t->set_base_url('http://www.steinerverlag.com');      
+		$h2t->set_base_url($this->conf['baseURL']);      
 
 		// Simply call the get_text() method for the class to convert
 		// the HTML to the plain text. Store it into the variable.
 		$text = $h2t->get_text();
-  
-		/*
-		Simple removement of all HTML tags
-		while($content != strip_tags($content))
-		{
-				while (strlen($content) != 0)
-				{
-					if (strlen($content) > 1024) 
-					{
-							$otherlen = 1024;
-					} 
-					else 
-					{
-						$otherlen = strlen($content);
-					}
-					$temptext = strip_tags(substr($content,0,$otherlen));
-					$safetext .= $temptext;
-					$content = substr_replace($content,'',0,$otherlen);
-				} 
-				$content = $safetext;
-		}
-		*/
+		
+		$fixTypoScript = array(
+			'\n' => "\n",
+			'\t' => "\t"
+			);
+		$text = str_replace(array_keys($fixTypoScript), $fixTypoScript, $text);
     
-		return ($text);
+		return $text;
 	}
 	
 }
